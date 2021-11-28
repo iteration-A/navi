@@ -1,0 +1,18 @@
+{
+	"extends": "@sindresorhus/tsconfig",
+	"compilerOptions": {
+		"module": "commonjs",
+		"jsx": "react",
+		"esModuleInterop": true,
+		"outDir": "dist",
+		"baseUrl": "source",
+		"paths": {
+			"@components/*": ["components/*"],
+			"@interfaces/*": ["interfaces/*"],
+      "@seed/*": ["seed/*"],
+      "@constants/*": ["constants/*"],
+      "@hooks/*": ["hooks/*"]
+		}
+	},
+	"include": ["source"]
+}
