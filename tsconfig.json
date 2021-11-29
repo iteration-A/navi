@@ -11,6 +11,7 @@
 			"@interfaces/*": ["interfaces/*"],
       "@seed/*": ["seed/*"],
       "@constants/*": ["constants/*"],
+      "@services/*": ["services/*"],
       "@hooks/*": ["hooks/*"]
 		}
 	},

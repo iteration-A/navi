@@ -2,6 +2,7 @@ import React, { FC, useEffect } from "react";
 import { Text, Box, useFocus } from "ink";
 import { colors } from "@constants/theme";
 import useListIndex from "@hooks/useListIndex";
+import Weather from '@components/Weather';
 
 const OPTIONS = [{ title: "My notes", route: "NoteList" }, { title: "New note", route: "NewNote" }];
 
@@ -29,6 +30,7 @@ const SideBar: FC<Props> = ({ username, setRoute }) => {
 			<Box marginY={1} justifyContent="center" width="100%">
         <Text>--- {Boolean(username) ? `Hello, ${username}` : 'Navi'} ---</Text>
 			</Box>
+      <Weather />
 			{OPTIONS.map((option, index) => (
 				<Text
           key={option.title}
