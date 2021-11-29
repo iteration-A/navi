@@ -1,29 +1,31 @@
-import React, { FC, useEffect } from "react";
-import { Box, useFocusManager, useInput } from "ink";
+import React, { FC, useState } from "react";
+import { Box } from "ink";
 import NoteList from "@components/NoteList";
+import NewNote from "@components/NewNote";
 import SideBar from "@components/SideBar";
+import useNavigation from "@hooks/useNavigation";
 
-const App: FC<{ name?: string }> = () => {
-	const { focusNext, focusPrevious } = useFocusManager();
-	useInput((input) => {
-		if (input === "h") {
-			focusPrevious();
-		} else if (input === "l") {
-			focusNext();
-		}
-	});
-	useEffect(() => {
-    // auto focus, i think i don't need this but whatever
-		focusNext();
-	}, []);
+const App: FC<{ name?: string }> = ({ name }) => {
+	useNavigation();
+
+  const [currentRoute, setCurrentRoute] = useState("NoteList");
 
 	return (
 		<Box width="100%">
 			<Box width="20%">
-				<SideBar />
+				<SideBar username={name} setRoute={setCurrentRoute} />
 			</Box>
 			<Box width="80%">
-				<NoteList />
+        {(() => {
+          switch (currentRoute) {
+            case "NoteList":
+              return <NoteList />;
+            case "NewNote":
+              return <NewNote />;
+            default:
+              return <NoteList />;
+          }
+        })()}
 			</Box>
 		</Box>
 	);
