@@ -7,10 +7,10 @@ import SideBar from "@components/SideBar";
 import useNavigation from "@hooks/useNavigation";
 
 const App: FC<{ name?: string }> = ({ name }) => {
-	useNavigation();
-
   const [currentRoute, setCurrentRoute] = useState("NoteList");
   const [userCreated, setUserCreated] = useState(false);
+
+	useNavigation(!Boolean(userCreated));
 
   if (!userCreated) return <WhoIsTheUser onSuccess={setUserCreated} />;
 

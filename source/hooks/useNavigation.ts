@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useFocusManager, useInput } from "ink";
 
-const useNavigation = () => {
+const useNavigation = (disable: boolean) => {
 	const { focusNext, focusPrevious, focus } = useFocusManager();
 	useInput((input) => {
+    if (disable) return;
 		if (input === "h") {
 			focusPrevious();
 		} else if (input === "l") {
