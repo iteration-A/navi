@@ -15,15 +15,21 @@ const NoteList: FC<{ token: string }> = ({ token }) => {
 	const currentNoteIndex = useListIndex(notes?.length || 0, isFocused);
 
 	return (
-		<Box borderStyle="single" borderColor={colors.white} flexDirection="column">
+		<Box borderStyle="single" borderColor={colors.white} flexDirection="column" width="100%">
 			{error && <Text>{error}</Text>}
-			{notes?.map((note, index) => (
-				<Note
-					key={note.id}
-					note={note}
-					active={index === currentNoteIndex && isFocused}
-				/>
-			))}
+			{notes && notes.length ? (
+				notes.map((note, index) => (
+					<Note
+						key={note.id}
+						note={note}
+						active={index === currentNoteIndex && isFocused}
+					/>
+				))
+			) : (
+        <Box width="100%" justifyContent="center" alignItems="center">
+          <Text>No notes here!</Text>
+        </Box>
+			)}
 		</Box>
 	);
 };
