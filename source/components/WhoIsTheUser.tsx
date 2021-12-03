@@ -2,17 +2,17 @@ import React, { FC, useState } from 'react';
 import { Box, Text } from 'ink';
 import Input from '@components/Input';
 import Button from '@components/Button';
-import * as LocalStorage from '@services/local-storage';
+import ApiPost from '@services/api';
 
-const WhoIsTheUser: FC<{ onSuccess: React.Dispatch<React.SetStateAction<boolean>> }> = ({ onSuccess }) => {
+const WhoIsTheUser: FC<{ onSuccess: React.Dispatch<React.SetStateAction<string|null>> }> = ({ onSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string|null>(null);
 
   const logInHandler = async () => {
     try {
-      await LocalStorage.readUser({ username, password });
-      onSuccess(true);
+      const response = await ApiPost('http://localhost:3333/login', { username, password })
+      onSuccess(response.token);
     } catch (error) {
       setErrorMessage(String(error) || 'An error ocurred! D:');
     }

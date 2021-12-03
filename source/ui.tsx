@@ -8,11 +8,11 @@ import useNavigation from "@hooks/useNavigation";
 
 const App: FC<{ name?: string }> = ({ name }) => {
   const [currentRoute, setCurrentRoute] = useState("NoteList");
-  const [userCreated, setUserCreated] = useState(false);
+  const [token, setToken] = useState<string|null>(null);
 
-	useNavigation(!Boolean(userCreated));
+	useNavigation(!Boolean(token));
 
-  if (!userCreated) return <WhoIsTheUser onSuccess={setUserCreated} />;
+  if (!token) return <WhoIsTheUser onSuccess={setToken} />;
 
 	return (
 		<Box width="100%">
@@ -23,11 +23,11 @@ const App: FC<{ name?: string }> = ({ name }) => {
         {(() => {
           switch (currentRoute) {
             case "NoteList":
-              return <NoteList />;
+              return <NoteList token={token} />;
             case "NewNote":
-              return <NewNote />;
+              return <NewNote token={token} />;
             default:
-              return <NoteList />;
+              return <NoteList token={token} />;
           }
         })()}
 			</Box>

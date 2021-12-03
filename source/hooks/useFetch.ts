@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const useFetch = (url: string) => {
-	const [data, setData] = useState(null);
+function useFetch<T>(url: string, token?: any) {
+	const [data, setData] = useState<T|null>(null);
 	const [error, setError] = useState<null|string>(null);
 	const [loading, setLoading] = useState(true);
 
@@ -10,7 +10,7 @@ const useFetch = (url: string) => {
 		setLoading(true);
 		const fetchData = async () => {
 			try {
-				const { data } = await axios(url);
+				const { data } = await axios(url, { headers: { Authorization: `Bearer ${token}` } });
         setData(data);
       } catch (error) {
         setError(String(error));

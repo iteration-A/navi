@@ -1,10 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import { Box, Text } from "ink";
 
-const NewNote = () => {
+const NewNote: FC<{ token: string }> = ({ token }) => {
 	return (
 		<Box>
-			<Text>Hello!</Text>
+			<Text>{token}</Text>
 		</Box>
 	);
 };
