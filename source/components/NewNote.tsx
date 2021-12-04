@@ -9,7 +9,7 @@ import { Context } from "../ui";
 const NewNote: FC<{ token: string }> = ({ token }) => {
 	const [title, setTitle] = useState("");
 	const [body, setBody] = useState("");
-  const [error, setError] = useState<string|null>(null);
+	const [error, setError] = useState<string | null>(null);
 
 	const context = useContext(Context);
 

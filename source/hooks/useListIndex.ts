@@ -4,7 +4,7 @@ import { useInput } from "ink";
 const useListIndex = (listSize: number, active: boolean = true) => {
 	const [index, setIndex] = useState(0);
 	useInput((input) => {
-    if (!active) return;
+		if (!active) return;
 		if (input === "j") {
 			const isLast = index >= listSize - 1;
 			setIndex(isLast ? 0 : index + 1);

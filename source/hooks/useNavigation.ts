@@ -4,7 +4,7 @@ import { useFocusManager, useInput } from "ink";
 const useNavigation = (disable: boolean) => {
 	const { focusNext, focusPrevious, focus } = useFocusManager();
 	useInput((input) => {
-    if (disable) return;
+		if (disable) return;
 		if (input === "h") {
 			focusPrevious();
 		} else if (input === "l") {
@@ -16,7 +16,7 @@ const useNavigation = (disable: boolean) => {
 		focusNext();
 	}, []);
 
-  return focus;
+	return focus;
 };
 
 export default useNavigation;

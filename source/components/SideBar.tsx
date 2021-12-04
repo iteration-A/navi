@@ -2,23 +2,26 @@ import React, { FC, useEffect } from "react";
 import { Text, Box, useFocus } from "ink";
 import { colors } from "@constants/theme";
 import useListIndex from "@hooks/useListIndex";
-import Weather from '@components/Weather';
+import Weather from "@components/Weather";
 
-const OPTIONS = [{ title: "My notes", route: "NoteList" }, { title: "New note", route: "NewNote" }];
+const OPTIONS = [
+	{ title: "My notes", route: "NoteList" },
+	{ title: "New note", route: "NewNote" },
+];
 
 interface Props {
-  username?: string,
-  setRoute: React.Dispatch<React.SetStateAction<string>>
+	username?: string;
+	setRoute: React.Dispatch<React.SetStateAction<string>>;
 }
 const SideBar: FC<Props> = ({ username, setRoute }) => {
 	const { isFocused } = useFocus();
 	const currentElementIndex = useListIndex(OPTIONS.length, isFocused);
-  useEffect(() => {
-    setRoute(OPTIONS[currentElementIndex]?.route || 'NoteList');
-  }, [currentElementIndex]);
+	useEffect(() => {
+		setRoute(OPTIONS[currentElementIndex]?.route || "NoteList");
+	}, [currentElementIndex]);
 
-  // TODO:
-  // refactor `index === currentElementIndex && isFocused` -> create custom text component
+	// TODO:
+	// refactor `index === currentElementIndex && isFocused` -> create custom text component
 	return (
 		<Box
 			flexDirection="column"
@@ -28,16 +31,22 @@ const SideBar: FC<Props> = ({ username, setRoute }) => {
 			width="100%"
 		>
 			<Box marginY={1} justifyContent="center" width="100%">
-        <Text>--- {Boolean(username) ? `Hello, ${username}` : 'Navi'} ---</Text>
+				<Text>--- {Boolean(username) ? `Hello, ${username}` : "Navi"} ---</Text>
 			</Box>
-      <Weather />
+			<Weather />
 			{OPTIONS.map((option, index) => (
 				<Text
-          key={option.title}
+					key={option.title}
 					backgroundColor={
-						index === currentElementIndex && isFocused ? colors.white : colors.black
+						index === currentElementIndex && isFocused
+							? colors.white
+							: colors.black
 					}
-					color={index === currentElementIndex && isFocused ? colors.black : colors.white}
+					color={
+						index === currentElementIndex && isFocused
+							? colors.black
+							: colors.white
+					}
 				>
 					{option.title}
 				</Text>

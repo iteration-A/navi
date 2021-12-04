@@ -5,7 +5,11 @@ import NewNote from "@components/NewNote";
 import WhoIsTheUser from "@components/WhoIsTheUser";
 import SideBar from "@components/SideBar";
 import useNavigation from "@hooks/useNavigation";
-import { GOODBYE_MESSAGE_1, GOODBYE_MESSAGE_2, GOODBYE_ART } from '@constants/ascii';
+import {
+	GOODBYE_MESSAGE_1,
+	GOODBYE_MESSAGE_2,
+	GOODBYE_ART,
+} from "@constants/ascii";
 
 type ctx = {
 	toggleNavigation: React.Dispatch<React.SetStateAction<boolean>>;
@@ -47,7 +51,6 @@ const App: FC<{ name?: string }> = ({ name }) => {
 				goTo: setCurrentRoute,
 			}}
 		>
-			<Text>{isNavigationDisabled ? "off" : "on"}</Text>
 			<Box width="100%">
 				<Box width="20%">
 					<SideBar username={name} setRoute={setCurrentRoute} />

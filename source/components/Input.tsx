@@ -33,9 +33,9 @@ const Input: FC<Props> = ({ onChange, value, password = false }) => {
 			case key.return:
 				newValue = `${value}\n`;
 				break;
-      case input.length > 1:
-        newValue = 'Copy paste support is on development :('
-        break;
+			case input.length > 1:
+				newValue = "Copy paste support is on development :(";
+				break;
 			default:
 				newValue = `${value}${input}`;
 		}

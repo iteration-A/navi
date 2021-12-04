@@ -13,7 +13,7 @@ export const Note: FC<{ note: INote; active: boolean }> = ({
 			<Box flexDirection="column" key={note.id} width="100%">
 				<Box width="100%" justifyContent="center">
 					<Text
-            wrap="wrap"
+						wrap="wrap"
 						backgroundColor={active ? colors.white : colors.black}
 						color={active ? colors.black : colors.white}
 					>
