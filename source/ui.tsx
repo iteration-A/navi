@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Box, Text } from "ink";
+import { Box, Text, useInput, useApp } from "ink";
 import NoteList from "@components/NoteList";
 import NewNote from "@components/NewNote";
 import WhoIsTheUser from "@components/WhoIsTheUser";
@@ -7,23 +7,46 @@ import SideBar from "@components/SideBar";
 import useNavigation from "@hooks/useNavigation";
 
 type ctx = {
-  toggleNavigation: React.Dispatch<React.SetStateAction<boolean>>
-  goTo: React.Dispatch<React.SetStateAction<string>>
-}
+	toggleNavigation: React.Dispatch<React.SetStateAction<boolean>>;
+	goTo: React.Dispatch<React.SetStateAction<string>>;
+};
 export const Context = React.createContext<ctx | undefined>(undefined);
 
 const App: FC<{ name?: string }> = ({ name }) => {
 	const [currentRoute, setCurrentRoute] = useState("NoteList");
 	const [token, setToken] = useState<string | null>(null);
-  const [isNavigationDisabled, setIsNavigationDisabled] = useState(false);
+	const [isNavigationDisabled, setIsNavigationDisabled] = useState(false);
+
+	const { exit } = useApp();
+	const [exiting, setExiting] = useState(false);
+	useInput((input, key) => {
+		if (input === "c" && key.ctrl) {
+			setExiting(true);
+			setTimeout(exit, 2222);
+		}
+	});
 
 	useNavigation(!token || isNavigationDisabled);
+
+	if (exiting)
+		return (
+			<Box justifyContent="center" alignItems="center" flexDirection="column">
+				<Text>{GOODBYE_MESSAGE_1}</Text>
+				<Text>{GOODBYE_MESSAGE_2}</Text>
+				<Text>{GOODBYE_ART}</Text>
+			</Box>
+		);
 
 	if (!token) return <WhoIsTheUser onSuccess={setToken} />;
 
 	return (
-    <Context.Provider value={{ toggleNavigation: setIsNavigationDisabled, goTo: setCurrentRoute }}>
-      <Text>{isNavigationDisabled ? 'off' : 'on'}</Text>
+		<Context.Provider
+			value={{
+				toggleNavigation: setIsNavigationDisabled,
+				goTo: setCurrentRoute,
+			}}
+		>
+			<Text>{isNavigationDisabled ? "off" : "on"}</Text>
 			<Box width="100%">
 				<Box width="20%">
 					<SideBar username={name} setRoute={setCurrentRoute} />
@@ -46,3 +69,36 @@ const App: FC<{ name?: string }> = ({ name }) => {
 };
 
 export default App;
+
+const GOODBYE_ART = `
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⠟⠁⣿⡄⠀⠀⠀⠀⠀⠀⠀⣠⡶⣄⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡿⠁⠀⠀⢹⣿⣤⣄⣀⣀⡀⢀⣾⡿⠀⢹⡆⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣿⣿⣇⣀⣀⣠⣤⣿⣿⣿⣿⣿⣿⣿⣿⡃⠀⠀⣿⡄⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣄⣹⡇⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⢿⣿⣿⣿⣿⣟⠛⢋⣉⣉⣽⣿⣿⡀
+⠀⢀⣤⣶⣾⣿⣶⣦⣀⠀⠀⠀⢘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇
+⢠⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀
+⢸⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⡿⠋⠙⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⠀⠀⠀
+⠀⠛⠿⠿⠛⠉⠀⠀⠀⠈⠉⠉⠁⠀⠀⠀⠀⠀⠈⠉⠙⠛⠛⠛⠿⠿⠿⠿⠿⠛⠛⠛⠋⠉⠁⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+`;
+
+const GOODBYE_MESSAGE_1 = `
+▐▙██▖ ▟█▙      ▐█▙█▖ ▟██▖▐███ ▐███  ▟█▙  █▟█▌     █   █▐▙██▖ ▟█▙  █▟█▌ ▟█▙      ▝█ █▌ ▟█▙ ▐▌ ▐▌      ▟█▟▌ ▟█▙ 
+▐▛ ▐▌▐▛ ▜▌     ▐▌█▐▌ ▘▄▟▌ ▐▌   ▐▌  ▐▙▄▟▌ █▘       ▜ █ ▛▐▛ ▐▌▐▙▄▟▌ █▘  ▐▙▄▟▌      █▖█ ▐▛ ▜▌▐▌ ▐▌     ▐▛ ▜▌▐▛ ▜▌
+▐▌ ▐▌▐▌ ▐▌     ▐▌█▐▌▗█▀▜▌ ▐▌   ▐▌  ▐▛▀▀▘ █        ▐▙█▟▌▐▌ ▐▌▐▛▀▀▘ █   ▐▛▀▀▘      ▐█▛ ▐▌ ▐▌▐▌ ▐▌     ▐▌ ▐▌▐▌ ▐▌
+▐▌ ▐▌▝█▄█▘     ▐▌█▐▌▐▙▄█▌ ▐▙▄  ▐▙▄ ▝█▄▄▌ █        ▝█ █▘▐▌ ▐▌▝█▄▄▌ █   ▝█▄▄▌       █▌ ▝█▄█▘▐▙▄█▌     ▝█▄█▌▝█▄█▘
+▝▘ ▝▘ ▝▀▘      ▝▘▀▝▘ ▀▀▝▘  ▀▀   ▀▀  ▝▀▀  ▀         ▀ ▀ ▝▘ ▝▘ ▝▀▀  ▀    ▝▀▀        █   ▝▀▘  ▀▀▝▘      ▞▀▐▌ ▝▀▘ 
+`;
+const GOODBYE_MESSAGE_2 = `
+                                               ▀                                           ▐▌          ▐▌
+ ▟█▙ ▐▙ ▟▌ ▟█▙  █▟█▌▝█ █▌ ▟█▙ ▐▙██▖ ▟█▙       ██  ▗▟██▖      ▟██▖ ▟█▙ ▐▙██▖▐▙██▖ ▟█▙  ▟██▖▐███  ▟█▙  ▟█▟▌
+▐▙▄▟▌ █ █ ▐▙▄▟▌ █▘   █▖█ ▐▛ ▜▌▐▛ ▐▌▐▙▄▟▌       █  ▐▙▄▖▘     ▐▛  ▘▐▛ ▜▌▐▛ ▐▌▐▛ ▐▌▐▙▄▟▌▐▛  ▘ ▐▌  ▐▙▄▟▌▐▛ ▜▌
+▐▛▀▀▘ ▜▄▛ ▐▛▀▀▘ █    ▐█▛ ▐▌ ▐▌▐▌ ▐▌▐▛▀▀▘       █   ▀▀█▖     ▐▌   ▐▌ ▐▌▐▌ ▐▌▐▌ ▐▌▐▛▀▀▘▐▌    ▐▌  ▐▛▀▀▘▐▌ ▐▌
+▝█▄▄▌ ▐█▌ ▝█▄▄▌ █     █▌ ▝█▄█▘▐▌ ▐▌▝█▄▄▌     ▗▄█▄▖▐▄▄▟▌     ▝█▄▄▌▝█▄█▘▐▌ ▐▌▐▌ ▐▌▝█▄▄▌▝█▄▄▌ ▐▙▄ ▝█▄▄▌▝█▄█▌
+ ▝▀▀   ▀   ▝▀▀  ▀     █   ▝▀▘ ▝▘ ▝▘ ▝▀▀      ▝▀▀▀▘ ▀▀▀       ▝▀▀  ▝▀▘ ▝▘ ▝▘▝▘ ▝▘ ▝▀▀  ▝▀▀   ▀▀  ▝▀▀  ▝▀▝▘
+`;
