@@ -14,6 +14,7 @@ import {
 type ctx = {
 	toggleNavigation: React.Dispatch<React.SetStateAction<boolean>>;
 	goTo: React.Dispatch<React.SetStateAction<string>>;
+  token: string | null;
 };
 export const Context = React.createContext<ctx | undefined>(undefined);
 
@@ -35,7 +36,7 @@ const App: FC<{ name?: string }> = ({ name }) => {
 
 	if (exiting)
 		return (
-			<Box justifyContent="center" alignItems="center" flexDirection="column">
+			<Box justifyContent="center" alignItems="center" flexDirection="column" width="100%" minHeight="100%">
 				<Text>{GOODBYE_MESSAGE_1}</Text>
 				<Text>{GOODBYE_MESSAGE_2}</Text>
 				<Text>{GOODBYE_ART}</Text>
@@ -49,6 +50,7 @@ const App: FC<{ name?: string }> = ({ name }) => {
 			value={{
 				toggleNavigation: setIsNavigationDisabled,
 				goTo: setCurrentRoute,
+        token
 			}}
 		>
 			<Box width="100%">

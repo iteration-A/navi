@@ -1,20 +1,21 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { Method } from "axios";
 
-interface ApiRespone {
-	status: number;
-	errors?: { message: string }[];
-}
-
-type Res = ApiRespone & AxiosResponse;
-
-const post = async (url: string, data: any, token?: string) => {
+const ApiCall = async (
+	url: string,
+	data: any,
+	token?: string,
+	method: Method = "POST"
+) => {
 	try {
-		const response = await axios.post<any, Res>(url, data, {
+		const response = await axios(url, {
+			data,
+			method,
 			headers: token ? { Authorization: `Bearer ${token}` } : undefined,
 		});
 
 		return response.data;
 	} catch (error: any) {
+    console.log(error);
 		// how in hell am i supposed to type this ????
 		// god forgive me
 		const { response } = error;
@@ -25,4 +26,4 @@ const post = async (url: string, data: any, token?: string) => {
 	}
 };
 
-export default post;
+export default ApiCall;

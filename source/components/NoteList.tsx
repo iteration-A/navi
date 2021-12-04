@@ -8,7 +8,7 @@ import useFetch from "@hooks/useFetch";
 
 const NoteList: FC<{ token: string }> = ({ token }) => {
 	const { isFocused } = useFocus();
-	const { data: notes, error } = useFetch<INote[]>(
+  const { data: notes, error, fetchData: fetchNotes } = useFetch<INote[]>(
 		"http://localhost:3333/notes",
 		token
 	);
@@ -22,9 +22,11 @@ const NoteList: FC<{ token: string }> = ({ token }) => {
 			width="100%"
 		>
 			{error && <Text>{error}</Text>}
+      <Text>Press Backspace to delete selected Note</Text>
 			{notes && notes.length ? (
 				notes.map((note, index) => (
 					<Note
+            onDelete={fetchNotes}
 						key={note.id}
 						note={note}
 						active={index === currentNoteIndex && isFocused}
