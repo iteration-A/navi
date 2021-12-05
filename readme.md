@@ -9,6 +9,9 @@ Navi is the typical React ToDo app with a twist... It runs in the terminal!\
 #### Login Screen
 ![login](preview/login.png)
 
+#### Login Screen
+![register](preview/register.png)
+
 #### Home Screen (without notes)
 ![home empty](preview/home-empty.png)
 
