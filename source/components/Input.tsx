@@ -7,8 +7,9 @@ interface Props {
 	onChange: (value: string) => void;
 	value: string;
 	password?: boolean;
+  placeholder?: string
 }
-const Input: FC<Props> = ({ onChange, value, password = false }) => {
+const Input: FC<Props> = ({ onChange, value, password = false, placeholder = ' ' }) => {
 	const { isFocused } = useFocus();
 
 	const context = useContext(Context);
@@ -49,9 +50,8 @@ const Input: FC<Props> = ({ onChange, value, password = false }) => {
 			borderStyle={isFocused ? "bold" : "single"}
 			minWidth={18}
 		>
-			{/* height fix */}
 			<Text wrap="wrap">
-				{(password ? "*".repeat(value.length) : value) || " "}
+				{(password ? "*".repeat(value.length) : value) || placeholder}
 			</Text>
 		</Box>
 	);

@@ -3,53 +3,48 @@ import { Box, Text } from "ink";
 import Input from "@components/Input";
 import Button from "@components/Button";
 import ApiPost from "@services/api";
-import { GREETINGS, NAVI_LOGO } from "@constants/ascii";
-import Register from '@components/Register';
+import { LAIN_REGISTER, REGISTER_MESSAGE } from "@constants/ascii";
 
-const WhoIsTheUser: FC<{
-	onSuccess: React.Dispatch<React.SetStateAction<string | null>>;
-}> = ({ onSuccess }) => {
+const Register: FC<{
+	onSuccess: () => void;
+	onGoBack: () => void;
+}> = ({ onSuccess, onGoBack }) => {
 	const [username, setUsername] = useState("");
+	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // register logic
-  const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const goBack = () => setShowRegisterForm(false);
-
-	const logInHandler = async () => {
+	const registerHandler = async () => {
 		try {
-			const response = await ApiPost("http://localhost:3333/login", {
+			await ApiPost("http://localhost:3333/users", {
 				username,
 				password,
+				name,
 			});
-			onSuccess(response.token);
+			onSuccess();
 		} catch (error) {
 			setErrorMessage(String(error) || "An error ocurred! D:");
 		}
 	};
 
-  if (showRegisterForm) {
-    return <Register onSuccess={goBack} onGoBack={goBack} />;
-  }
-
 	return (
 		<Box width="100%" alignItems="center" flexDirection="column">
 			<Box justifyContent="center" width="100%">
-				<Text>{GREETINGS}</Text>
+				<Text>{REGISTER_MESSAGE}</Text>
 			</Box>
 			<Box justifyContent="center" width="100%">
-				<Text>{NAVI_LOGO}</Text>
+				<Text>{LAIN_REGISTER}</Text>
 			</Box>
 			{errorMessage && <Text>{errorMessage}</Text>}
 			<Box flexDirection="column">
+				<Input placeholder="Name" value={name} onChange={setName} />
 				<Input placeholder="Username" value={username} onChange={setUsername} />
 				<Input placeholder="Password" value={password} onChange={setPassword} password />
-				<Button onPress={logInHandler}>Log in</Button>
-        <Button onPress={() => setShowRegisterForm(true)}>Register</Button>
+				<Button onPress={registerHandler}>Register</Button>
+				<Button onPress={onGoBack}>Go back</Button>
 			</Box>
 		</Box>
 	);
 };
 
-export default WhoIsTheUser;
+export default Register;

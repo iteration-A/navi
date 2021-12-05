@@ -15,9 +15,6 @@ const ApiCall = async (
 
 		return response.data;
 	} catch (error: any) {
-    console.log(error);
-		// how in hell am i supposed to type this ????
-		// god forgive me
 		const { response } = error;
 		if (response?.data?.errors && response?.data?.errors.length > 0) {
 			throw new Error(response?.data?.errors[0]!.message);
