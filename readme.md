@@ -23,7 +23,7 @@ Navi is the typical React ToDo app with a twist... It runs in the terminal!\
 
 
 ### How to run it locally
-* Make sure to have the backend running [(instructions)](https://github.com/mluna711/navi-backend) *
+*Make sure to have the backend running [(instructions)](https://github.com/mluna711/navi-backend)*
 1. Clone the repo
 2. Inside the local repo run `yarn install`
 3. Run `yarn start`
